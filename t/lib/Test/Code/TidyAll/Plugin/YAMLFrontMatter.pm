@@ -67,11 +67,16 @@ sub test_main : Tests {
         desc   => 'BOM',
     );
 
-
     $self->tidyall(
         source => "\x{fe}\x{ff}\x{00}-\x{00}-\x{00}-\x{00}\n\x{00}-\x{00}-\x{00}-\x{00}\n\x{00}!",
         conf   => { encoding => 'UTF-16' },
         desc   => 'UTF-16',
+    );
+
+    $self->tidyall(
+        source => "---\n---\nL\x{e9}on hates invalid UTF-8",
+        expect_error => qr/File does not match encoding 'UTF-8'/,
+        desc   => 'Invalid encoding',
     );
 
     ## required keys

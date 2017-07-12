@@ -22,7 +22,7 @@ has encoding => (
 
     # By default Jekyll 2.0 and later defaults to utf-8, so this seems
     # like a sensible default for us
-    default => 'utf-8',
+    default => 'UTF-8',
 );
 
 has required_top_level_keys => (
@@ -51,10 +51,13 @@ sub validate_file {
     };
 
     # YAML::XS always expects things to be in UTF-8 bytes
-    unless (lc $self->encoding eq lc "utf-8") {
-        $src = decode( $self->encoding , $src, Encode::FB_CROAK);
+    my $encoding = $self->encoding;
+    try {
+        $src = decode( $encoding, $src, Encode::FB_CROAK);
         $src = encode( 'UTF-8', $src, Encode::FB_CROAK );
-    }
+    } catch {
+        die "File does not match encoding '$encoding': $_";
+    };
 
     # is there a BOM?  There's not meant to be a BOM!
     if ($src =~ /\A\x{EF}\x{BB}\x{BF}/) {
