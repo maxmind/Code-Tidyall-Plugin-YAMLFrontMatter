@@ -1,5 +1,8 @@
 package Test::Code::TidyAll::Plugin::YAMLFrontMatter;
 
+use strict;
+use warnings;
+
 use Test::Class::Most;
 
 use Code::TidyAll;
@@ -16,26 +19,29 @@ sub tidyall {
         root_dir => tempdir_simple(),
         plugins  => {
             YAMLFrontMatter => {
-                select => '*',  # everything, since we're testing
+                select => '*',    # everything, since we're testing
                 %{ $args{conf} || {} },
             },
         },
     );
 
     my $result;
-    my ( $output, $error ) = capture {
+    capture {
         $result = $tidyall->process_source( $args{source}, 'dummy.md' );
     };
 
     my $expect_error = $args{expect_error};
-    unless ($expect_error ) {
+    unless ($expect_error) {
         is( $result->state, 'checked', "state=checked [$args{desc}]" );
         is( $result->error, undef,     "no error [$args{desc}]" );
         return;
     }
 
     is( $result->state, 'error', "state=error [$args{desc}]" );
-    like( $result->error || '', $expect_error, "error message [$args{desc}]" );
+    like(
+        $result->error || q{}, $expect_error,
+        "error message [$args{desc}]"
+    );
     return;
 }
 
@@ -48,13 +54,14 @@ sub test_main : Tests {
     );
 
     $self->tidyall(
-        source       => 'fish',
-        expect_error => qr/dummy[.]md' does not start with valid YAML Front Matter/,
-        desc         => 'no front matter',
+        source => 'fish',
+        expect_error =>
+            qr/dummy[.]md' does not start with valid YAML Front Matter/,
+        desc => 'no front matter',
     );
 
     $self->tidyall(
-        source => qq{---\n!!!!!\n---\nThis should not work},
+        source       => qq{---\n!!!!!\n---\nThis should not work},
         expect_error => qr/Problem parsing YAML/,
         desc         => 'Bad YAML',
     );
@@ -64,19 +71,20 @@ sub test_main : Tests {
     $self->tidyall(
         source => "\x{EF}\x{BB}\x{BF}---\n---\nSomeone set us up the BOM",
         expect_error => qr/Starting document with UTF-8 BOM is not allowed/,
-        desc   => 'BOM',
+        desc         => 'BOM',
     );
 
     $self->tidyall(
-        source => "\x{fe}\x{ff}\x{00}-\x{00}-\x{00}-\x{00}\n\x{00}-\x{00}-\x{00}-\x{00}\n\x{00}!",
-        conf   => { encoding => 'UTF-16' },
-        desc   => 'UTF-16',
+        source =>
+            "\x{fe}\x{ff}\x{00}-\x{00}-\x{00}-\x{00}\n\x{00}-\x{00}-\x{00}-\x{00}\n\x{00}!",
+        conf => { encoding => 'UTF-16' },
+        desc => 'UTF-16',
     );
 
     $self->tidyall(
-        source => "---\n---\nL\x{e9}on hates invalid UTF-8",
+        source       => "---\n---\nL\x{e9}on hates invalid UTF-8",
         expect_error => qr/File does not match encoding 'UTF-8'/,
-        desc   => 'Invalid encoding',
+        desc         => 'Invalid encoding',
     );
 
     ## required keys
@@ -89,9 +97,9 @@ sub test_main : Tests {
     );
 
     $self->tidyall(
-        source       => "---\ntitle: B Piper\n---\nA rose by any other name",
-        desc         => 'No missing key',
-        conf         => { required_top_level_keys => 'title' },
+        source => "---\ntitle: B Piper\n---\nA rose by any other name",
+        desc   => 'No missing key',
+        conf   => { required_top_level_keys => 'title' },
     );
 
     $self->tidyall(
