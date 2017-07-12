@@ -84,6 +84,8 @@ sub validate_file {
         $errors .= "Missing required YAML Front Matter key: '$_'\n";
     }
     die $errors if $errors;
+
+    return;
 }
 
 1;
