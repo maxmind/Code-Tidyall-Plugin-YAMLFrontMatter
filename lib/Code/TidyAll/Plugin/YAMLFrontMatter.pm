@@ -89,3 +89,53 @@ sub validate_file {
 }
 
 1;
+
+# ABSTRACT: TidyAll plugin for validating YAML Front Matter
+
+=head1 SYNOPSIS
+
+In your .tidyallrc file:
+
+    [YAMLFrontMatter]
+    select = **/*.md
+    required_top_level_key = title layout
+
+=head1 DESCRIPTION
+
+This is a validator plugin for L<Code::TidyAll> that can be used to check
+that files have valid YAML Front Matter, like Jekyll et al use.
+
+It will complain if:
+
+=over
+
+=item There's no YAML Front Matter
+
+=item The YAML Front Matter isn't valid YAML
+
+=item You put a UTF-8 BOM on the front
+
+=item The file isn't encoded in the configured encoding (UTF-8 by default)
+
+=item The YAML Front Matter is missing one or more configured top level keys
+
+=cut
+
+=head2 Options
+
+=over
+
+=item C<required_top_level_key>
+
+Keys that must be present at the top level of the YAML Front Matter.
+
+=item C<encoding>
+
+The encoding the file is in.  Defaults to UTF-8 (just like Jekyll 2.0 and
+later.)
+
+=back
+
+=head1 SEE ALSO
+
+L<Jeykll's Front Matter Documentation|https://jekyllrb.com/docs/frontmatter/>
