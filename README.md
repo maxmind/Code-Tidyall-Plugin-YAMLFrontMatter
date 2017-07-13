@@ -23,7 +23,7 @@ It will complain if:
 
 - There's no YAML Front Matter
 - The YAML Front Matter isn't valid YAML
-- You put a UTF-8 BOM on the front
+- There's a UTF-8 BOM at the start of the file
 - The file isn't encoded in the configured encoding (UTF-8 by default)
 - The YAML Front Matter is missing one or more configured top level keys
 
@@ -46,6 +46,8 @@ It will complain if:
 
 Please report all issues with this code using the GitHub issue tracker at
 [https://github.com/maxmind/Code-TidyAll-Plugin-YAMLFrontMatter/issues](https://github.com/maxmind/Code-TidyAll-Plugin-YAMLFrontMatter/issues).
+
+Bugs may be submitted through [https://github.com/maxmind/Code-Tidyall-Plugin-YAMLFrontMatter/issues](https://github.com/maxmind/Code-Tidyall-Plugin-YAMLFrontMatter/issues).
 
 # AUTHOR
 

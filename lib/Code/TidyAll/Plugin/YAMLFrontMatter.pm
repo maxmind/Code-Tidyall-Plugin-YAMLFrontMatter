@@ -122,7 +122,7 @@ It will complain if:
 
 =item The YAML Front Matter isn't valid YAML
 
-=item You put a UTF-8 BOM on the front
+=item There's a UTF-8 BOM at the start of the file
 
 =item The file isn't encoded in the configured encoding (UTF-8 by default)
 
