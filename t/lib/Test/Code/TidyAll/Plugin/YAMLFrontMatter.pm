@@ -8,7 +8,7 @@ use Test::Class::Most;
 use Code::TidyAll;
 
 use Capture::Tiny qw( capture );
-use Code::TidyAll::Util qw(tempdir_simple);
+use Path::Tiny qw( tempdir );
 
 sub tidyall {
     my $self = shift;
@@ -16,8 +16,12 @@ sub tidyall {
 
     my $tidyall = Code::TidyAll->new(
         quiet    => 1,
-        root_dir => tempdir_simple(),
-        plugins  => {
+        root_dir => tempdir(
+            { realpath => 1 },
+            TEMPLATE => 'Code-TidyAll-XXXX',
+            CLEANUP  => 1,
+        ),
+        plugins => {
             YAMLFrontMatter => {
                 select => '*',    # everything, since we're testing
                 %{ $args{conf} || {} },

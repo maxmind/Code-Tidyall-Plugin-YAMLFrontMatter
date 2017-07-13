@@ -8,8 +8,8 @@ our $VERSION = '1.000000';
 
 use Moo;
 
-use Code::TidyAll::Util qw( read_file );
 use Encode qw( decode encode FB_CROAK );
+use Path::Tiny qw( path );
 use Try::Tiny qw( catch try );
 use YAML::XS qw( Load );
 
@@ -55,7 +55,7 @@ sub _build__req_keys_hash {
 sub validate_file {
     my ( $self, $filename ) = @_;
 
-    my $src = read_file( $filename, binmode => ':bytes' );
+    my $src = path($filename)->slurp_raw;
 
     # YAML::XS always expects things to be in UTF-8 bytes
     my $encoding = $self->encoding;
