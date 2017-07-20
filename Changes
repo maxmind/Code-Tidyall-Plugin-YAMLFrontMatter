@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+1.000001 2017-07-20
+
 - BUGFIX: Handle mutliline YAML Frontmatter correctly
 
 1.000000 2017-07-13
