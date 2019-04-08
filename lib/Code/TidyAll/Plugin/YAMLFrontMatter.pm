@@ -11,7 +11,7 @@ use Moo;
 use Encode qw( decode encode FB_CROAK );
 use Path::Tiny qw( path );
 use Try::Tiny qw( catch try );
-use YAML::XS qw( Load );
+use YAML::PP qw( Load );
 
 extends 'Code::TidyAll::Plugin';
 
@@ -63,7 +63,7 @@ sub validate_file {
 
     my $src = path($filename)->slurp_raw;
 
-    # YAML::XS always expects things to be in UTF-8 bytes
+    # YAML::PP always expects things to be in UTF-8 bytes
     my $encoding = $self->encoding;
     try {
         $src = decode( $encoding, $src, FB_CROAK );
