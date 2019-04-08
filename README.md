@@ -4,7 +4,7 @@ Code::TidyAll::Plugin::YAMLFrontMatter - TidyAll plugin for validating YAML Fron
 
 # VERSION
 
-version 1.000001
+version 1.000002
 
 # SYNOPSIS
 
@@ -53,9 +53,14 @@ Bugs may be submitted through [https://github.com/maxmind/Code-Tidyall-Plugin-YA
 
 Mark Fowler <mfowler@maxmind.com>
 
+# CONTRIBUTORS
+
+- Dave Rolsky <autarch@urth.org>
+- Greg Oschwald <goschwald@maxmind.com>
+
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2017 by MaxMind, Inc..
+This software is copyright (c) 2019 by MaxMind, Inc.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
