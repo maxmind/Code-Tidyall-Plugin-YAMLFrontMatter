@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+- Use YAML::PP rather than YAML::XS
+
 1.000001 2017-07-20
 
 - BUGFIX: Handle mutliline YAML Frontmatter correctly

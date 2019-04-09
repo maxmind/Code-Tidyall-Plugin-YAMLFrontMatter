@@ -11,7 +11,7 @@ use Moo;
 use Encode qw( decode encode FB_CROAK );
 use Path::Tiny qw( path );
 use Try::Tiny qw( catch try );
-use YAML::XS qw( Load );
+use YAML::PP 0.006 ();
 
 extends 'Code::TidyAll::Plugin';
 
@@ -63,7 +63,7 @@ sub validate_file {
 
     my $src = path($filename)->slurp_raw;
 
-    # YAML::XS always expects things to be in UTF-8 bytes
+    # YAML::PP always expects things to be in UTF-8 bytes
     my $encoding = $self->encoding;
     try {
         $src = decode( $encoding, $src, FB_CROAK );
@@ -86,7 +86,13 @@ sub validate_file {
 
     # parse the YAML front matter.
     my $ds = try {
-        Load($yaml);
+        my $yp = YAML::PP->new(
+
+            # we do not want to create circular refs
+            cyclic_refs => 'fatal',
+
+        );
+        return $yp->load_string($yaml);
     }
     catch {
         die "Problem parsing YAML: $_";
@@ -133,6 +139,8 @@ It will complain if:
 =item The file isn't encoded in the configured encoding (UTF-8 by default)
 
 =item The YAML Front Matter is missing one or more configured top level keys
+
+=item The YAML Front Matter contains circular references
 
 =back
 
