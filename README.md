@@ -26,6 +26,7 @@ It will complain if:
 - There's a UTF-8 BOM at the start of the file
 - The file isn't encoded in the configured encoding (UTF-8 by default)
 - The YAML Front Matter is missing one or more configured top level keys
+- The YAML Front Matter contains circular references
 
 ## Options
 
